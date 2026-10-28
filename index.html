@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ひかりのいろラボ | RGBとHEXカラーを遊びながら学ぼう</title>
+  <meta name="description" content="光の三原色（RGB）とHEXカラーコードの仕組みを、ライト・スライダー・穴埋めクイズで遊びながら学べる学習サイトです。">
+
+  <!-- Googleフォント（丸ゴシックとコード用フォント）を読み込む -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+
+  <!-- 見た目のルールは外部のCSSファイルにまとめてある -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- STEP 5 でみんなが書きかえる練習用CSS（style.cssより後に読み込むのがポイント） -->
+  <link rel="stylesheet" href="css/exercise.css">
+</head>
+
+<body>
+
+  <!-- ===================== ヘッダー ===================== -->
+  <header class="hero">
+    <p class="badge">RGB × HEX</p>
+    <h1 class="hero-title">ひかりのいろラボ</h1>
+    <p class="hero-lead">画面に見えている色は、ぜんぶ<br><strong>「赤・緑・青」の3つの光</strong>を混ぜてつくられている。</p>
+
+    <!-- HEXカラーコードの例。2文字ずつ「赤・緑・青」に分かれている -->
+    <p class="hero-code">
+      #<span class="text-r">FF</span><span class="text-g">80</span><span class="text-b">00</span>
+    </p>
+
+    <nav class="step-nav" aria-label="ステップ一覧">
+      <a href="#step1">STEP 1 光を混ぜる</a>
+      <a href="#step2">STEP 2 明るさを数字に</a>
+      <a href="#step3">STEP 3 16進数</a>
+      <a href="#step4">STEP 4 穴埋めクイズ</a>
+      <a href="#step5">STEP 5 CSSを書く</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===================== STEP 1 ===================== -->
+    <section class="step" id="step1">
+      <p class="step-label">STEP 1</p>
+      <h2>光の三原色を混ぜてみよう</h2>
+      <p>
+        真っ暗な部屋で、<span class="text-r">赤</span>・<span class="text-g">緑</span>・<span class="text-b">青</span>のライトを照らしているところを想像しよう。<br>
+        ボタンを押してライトをつけたり消したりして、重なったところが何色になるか観察してみよう。
+      </p>
+
+      <!-- 黒いステージの上に、3つの丸いライトを重ねている -->
+      <div class="light-stage" id="light-stage">
+        <div class="light" id="light-red"></div>
+        <div class="light" id="light-green"></div>
+        <div class="light" id="light-blue"></div>
+      </div>
+
+      <!-- onclick="toggleLight('red')" → script.js の toggleLight 関数が呼ばれる -->
+      <div class="light-buttons">
+        <button class="light-btn" id="btn-red" onclick="toggleLight('red')">赤のライト</button>
+        <button class="light-btn" id="btn-green" onclick="toggleLight('green')">緑のライト</button>
+        <button class="light-btn" id="btn-blue" onclick="toggleLight('blue')">青のライト</button>
+      </div>
+
+      <ul class="mix-list">
+        <li><span class="chip chip-red"></span>赤 ＋ <span class="chip chip-green"></span>緑 ＝ <span class="chip chip-yellow"></span><strong>黄</strong></li>
+        <li><span class="chip chip-green"></span>緑 ＋ <span class="chip chip-blue"></span>青 ＝ <span class="chip chip-cyan"></span><strong>シアン（水色）</strong></li>
+        <li><span class="chip chip-red"></span>赤 ＋ <span class="chip chip-blue"></span>青 ＝ <span class="chip chip-magenta"></span><strong>マゼンタ（赤紫）</strong></li>
+        <li><span class="chip chip-red"></span>赤 ＋ <span class="chip chip-green"></span>緑 ＋ <span class="chip chip-blue"></span>青 ＝ <span class="chip chip-white"></span><strong>白</strong></li>
+      </ul>
+
+      <p class="point">
+        💡 絵の具は混ぜるほど<strong>暗く</strong>なるけど、光は混ぜるほど<strong>明るく</strong>なる！<br>
+        ライトを全部消すと……真っ黒。光がない＝黒なんだ。
+      </p>
+    </section>
+
+    <!-- ===================== STEP 2 ===================== -->
+    <section class="step" id="step2">
+      <p class="step-label">STEP 2</p>
+      <h2>光の明るさを数字で表そう</h2>
+      <p>
+        コンピューターは、それぞれの光の明るさを <strong>0〜255</strong> の数字で管理している。<br>
+        <strong>0 = ライトが消えている</strong>、<strong>255 = ライト全開</strong>。スライダーを動かして色をつくってみよう。
+      </p>
+
+      <div class="mixer">
+        <!-- 左：3本のスライダー -->
+        <div class="sliders">
+          <!-- oninput="updateMixer()" → スライダーを動かすたびに script.js の updateMixer 関数が呼ばれる -->
+          <div class="slider-row">
+            <label for="slider-r" class="text-r">R（赤）</label>
+            <input type="range" id="slider-r" min="0" max="255" value="255" oninput="updateMixer()">
+            <p class="slider-value"><span id="value-r">255</span> → <span id="hex-r" class="mono">FF</span></p>
+          </div>
+          <div class="slider-row">
+            <label for="slider-g" class="text-g">G（緑）</label>
+            <input type="range" id="slider-g" min="0" max="255" value="128" oninput="updateMixer()">
+            <p class="slider-value"><span id="value-g">128</span> → <span id="hex-g" class="mono">80</span></p>
+          </div>
+          <div class="slider-row">
+            <label for="slider-b" class="text-b">B（青）</label>
+            <input type="range" id="slider-b" min="0" max="255" value="0" oninput="updateMixer()">
+            <p class="slider-value"><span id="value-b">0</span> → <span id="hex-b" class="mono">00</span></p>
+          </div>
+        </div>
+
+        <!-- 右：混ざった色のプレビュー -->
+        <div class="mixer-result">
+          <div class="mixer-preview" id="mixer-preview"></div>
+          <p class="code-line mono" id="rgb-text">rgb(255, 128, 0)</p>
+          <p class="code-line mono" id="hex-text">#FF8000</p>
+        </div>
+      </div>
+
+      <div class="try-box">
+        <h3>やってみよう</h3>
+        <ul>
+          <li>黄色をつくるには、どのスライダーを255にすればいい？</li>
+          <li>3本とも<strong>同じ数字</strong>にするとどうなる？（0、128、255で試そう）</li>
+          <li>ピンクや水色など、好きな色をつくって数字をメモしてみよう。</li>
+        </ul>
+      </div>
+
+      <p class="point">
+        💡 なぜ 255 なの？ → 0〜255 は全部で <strong>256段階</strong>。256 は <strong>16 × 16</strong>。<br>
+        だから<strong>16進数なら、ちょうど2ケタ</strong>で表せる！ これが次のSTEPのヒント。
+      </p>
+    </section>
+
+    <!-- ===================== STEP 3 ===================== -->
+    <section class="step" id="step3">
+      <p class="step-label">STEP 3</p>
+      <h2>16進数（じゅうろくしんすう）を知ろう</h2>
+      <p>
+        ふだん使っている数字は <strong>0〜9 の10種類</strong>（10進数）。<br>
+        16進数では、9のあとに <strong>A・B・C・D・E・F</strong> を使って <strong>16種類</strong> で数える。
+      </p>
+
+      <!-- 16進数と10進数の対応表 -->
+      <div class="hex-table">
+        <div class="hex-cell"><span class="mono">0</span><small>0</small></div>
+        <div class="hex-cell"><span class="mono">1</span><small>1</small></div>
+        <div class="hex-cell"><span class="mono">2</span><small>2</small></div>
+        <div class="hex-cell"><span class="mono">3</span><small>3</small></div>
+        <div class="hex-cell"><span class="mono">4</span><small>4</small></div>
+        <div class="hex-cell"><span class="mono">5</span><small>5</small></div>
+        <div class="hex-cell"><span class="mono">6</span><small>6</small></div>
+        <div class="hex-cell"><span class="mono">7</span><small>7</small></div>
+        <div class="hex-cell"><span class="mono">8</span><small>8</small></div>
+        <div class="hex-cell"><span class="mono">9</span><small>9</small></div>
+        <div class="hex-cell is-letter"><span class="mono">A</span><small>10</small></div>
+        <div class="hex-cell is-letter"><span class="mono">B</span><small>11</small></div>
+        <div class="hex-cell is-letter"><span class="mono">C</span><small>12</small></div>
+        <div class="hex-cell is-letter"><span class="mono">D</span><small>13</small></div>
+        <div class="hex-cell is-letter"><span class="mono">E</span><small>14</small></div>
+        <div class="hex-cell is-letter"><span class="mono">F</span><small>15</small></div>
+      </div>
+      <p class="note">上の大きい文字が16進数、下の小さい数字が10進数</p>
+
+      <h3>2ケタの計算のしかた</h3>
+      <p class="formula mono">
+        <span class="formula-big">F</span><span class="formula-big">F</span>
+        ＝ 15 × 16 ＋ 15 ＝ <strong>255</strong>（全開）
+      </p>
+      <p class="formula mono">
+        <span class="formula-big">8</span><span class="formula-big">0</span>
+        ＝ 8 × 16 ＋ 0 ＝ <strong>128</strong>（だいたい半分）
+      </p>
+
+      <!-- 2ケタの16進数を入力すると10進数に変換してくれるコーナー -->
+      <div class="converter">
+        <label for="hex-input">2ケタの16進数を入れてみよう →</label>
+        <input type="text" id="hex-input" class="mono" maxlength="2" placeholder="FF" oninput="convertHex()">
+        <p>10進数だと <strong id="hex-result" class="mono">?</strong></p>
+        <div class="bar"><div class="bar-fill" id="hex-bar"></div></div>
+        <p class="note">バーは「ライトの明るさ」。FF で満タンになるよ。</p>
+      </div>
+
+      <h3>HEXカラーコードのしくみ</h3>
+      <p>HEXカラーコードは <strong>#</strong> のあとに、2ケタの16進数を <strong>赤・緑・青</strong> の順に3つ並べたもの。</p>
+      <div class="hex-structure mono">
+        <div class="part part-hash">#<small>はじまりの印</small></div>
+        <div class="part part-r">RR<small>赤の明るさ</small></div>
+        <div class="part part-g">GG<small>緑の明るさ</small></div>
+        <div class="part part-b">BB<small>青の明るさ</small></div>
+      </div>
+    </section>
+
+    <!-- ===================== STEP 4 ===================== -->
+    <section class="step" id="step4">
+      <p class="step-label">STEP 4</p>
+      <h2>穴埋めクイズ：コードを完成させよう</h2>
+      <p>お手本の色になるように、空いているところに <strong>2ケタの16進数</strong> を入れよう。</p>
+
+      <div class="quiz-card">
+        <p class="quiz-number" id="quiz-number">1 / 11</p>
+        <h3 class="quiz-name">お題：<span id="quiz-name">赤</span></h3>
+        <p class="quiz-hint">ヒント：<span id="quiz-hint">ヒントがここに出る</span></p>
+
+        <!-- お手本の色と、自分がつくった色を並べて比べる -->
+        <div class="swatches">
+          <div class="swatch-box">
+            <div class="swatch" id="quiz-target"></div>
+            <p>お手本</p>
+          </div>
+          <div class="swatch-box">
+            <div class="swatch swatch-empty" id="quiz-preview"></div>
+            <p>きみの色</p>
+          </div>
+        </div>
+
+        <!-- CSSのコード風の穴埋め。入力するたびに updateQuizPreview 関数が呼ばれる -->
+        <div class="code-block mono">
+          <p><span class="code-selector">.box</span> {</p>
+          <p class="code-indent">
+            <span class="code-prop">background-color</span>: #<input type="text" id="quiz-r" class="blank blank-r" maxlength="2" placeholder="RR" oninput="updateQuizPreview()"><input type="text" id="quiz-g" class="blank blank-g" maxlength="2" placeholder="GG" oninput="updateQuizPreview()"><input type="text" id="quiz-b" class="blank blank-b" maxlength="2" placeholder="BB" oninput="updateQuizPreview()">;
+          </p>
+          <p>}</p>
+        </div>
+
+        <div class="quiz-buttons">
+          <button class="btn btn-main" id="check-button" onclick="checkAnswer()">答え合わせ</button>
+          <button class="btn btn-sub" id="next-button" onclick="nextQuestion()">次の問題 →</button>
+        </div>
+        <p class="quiz-message" id="quiz-message"></p>
+      </div>
+    </section>
+
+    <!-- ===================== STEP 5 ===================== -->
+    <section class="step" id="step5">
+      <p class="step-label">STEP 5</p>
+      <h2>本物のCSSファイルを書きかえよう</h2>
+      <p>
+        エディタで <code class="mono">css/exercise.css</code> を開いて、<code class="mono">#______</code> の部分を埋めよう。<br>
+        保存してからこのページを<strong>再読み込み</strong>すると、下の箱に色がつくよ。
+      </p>
+
+      <!-- それぞれの箱の色は css/exercise.css で決めている -->
+      <div class="ex-grid">
+        <div class="ex-box ex-1" id="ex-1"><p class="ex-label">問題1<br>赤い光だけ 全開</p></div>
+        <div class="ex-box ex-2" id="ex-2"><p class="ex-label">問題2<br>緑と青を 全開</p></div>
+        <div class="ex-box ex-3" id="ex-3"><p class="ex-label">問題3<br>3色とも 全開</p></div>
+        <div class="ex-box ex-4" id="ex-4"><p class="ex-label">問題4<br>3色とも 半分</p></div>
+        <div class="ex-box ex-5" id="ex-5"><p class="ex-label">問題5<br>自由に好きな色！</p></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>ひかりのいろラボ ― 画面の色は、光の足し算。</p>
+  </footer>
+
+  <!-- 動きをつけるプログラム。HTMLを全部読み込んだあとに読むので一番下に置く -->
+  <script src="js/script.js"></script>
+</body>
+
+</html>

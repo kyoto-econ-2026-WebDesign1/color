@@ -1,0 +1,714 @@
+/* =========================================================
+   ひかりのいろラボ ― メインのスタイル（style.css）
+   ---------------------------------------------------------
+   ★ このファイルにもたくさんのHEXカラーが出てくるよ。
+     「#」から始まる6文字を見つけたら、
+     「赤・緑・青のどの光が強いかな？」と想像してみよう！
+   ========================================================= */
+
+
+/* ---------- 色の変数 ---------- */
+/* よく使う色に名前をつけておくと、あとで変えるのがラク */
+:root {
+  --bg: #0B0D1A;         /* 背景：ほぼ黒（光がほとんどない） */
+  --panel: #141830;      /* カードの背景：少しだけ青い光が強い */
+  --line: #2A3060;       /* 枠線 */
+  --text: #EEF0FF;       /* 文字：ほぼ白（光がほぼ全開） */
+  --sub: #9AA3D6;        /* うすい文字 */
+
+  --red: #FF0000;        /* 赤の光だけ全開 */
+  --green: #00FF00;      /* 緑の光だけ全開 */
+  --blue: #0000FF;       /* 青の光だけ全開 */
+
+  /* 純粋な赤・緑・青は暗い背景だと読みにくいので、文字用にやわらかくした色 */
+  --red-soft: #FF5C7A;
+  --green-soft: #4DFFA6;
+  --blue-soft: #6C9BFF;
+  --accent: #FFD84D;     /* 強調用の黄色（赤＋緑が強い） */
+
+  --font-main: "Zen Maru Gothic", sans-serif;
+  --font-code: "JetBrains Mono", monospace;
+}
+
+
+/* ---------- 全体の基本 ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  line-height: 1.8;
+  color: var(--text);
+  background-color: var(--bg);
+  /* rgb() でも色は書ける。4つめの数字は「不透明度」(0=透明〜1=不透明) */
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(255, 0, 0, 0.18), transparent 40%),
+    radial-gradient(circle at 90% 10%, rgba(0, 255, 0, 0.12), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(0, 0, 255, 0.25), transparent 50%);
+  background-attachment: fixed;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin: 0 0 16px;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin: 32px 0 8px;
+}
+
+strong {
+  color: var(--accent);
+}
+
+/* コード用の等幅フォント */
+.mono {
+  font-family: var(--font-code);
+}
+
+/* 文字の色（赤・緑・青） */
+.text-r { color: var(--red-soft); }
+.text-g { color: var(--green-soft); }
+.text-b { color: var(--blue-soft); }
+
+
+/* ---------- ヘッダー ---------- */
+.hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+}
+
+.badge {
+  display: inline-block;
+  margin: 0;
+  padding: 4px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-code);
+  font-size: 0.85rem;
+  color: var(--sub);
+}
+
+.hero-title {
+  font-size: clamp(2.6rem, 8vw, 4.8rem);
+  font-weight: 900;
+  margin: 16px 0;
+  /* 文字に赤→緑→青のグラデーションをかける */
+  background: linear-gradient(90deg, var(--red-soft), var(--accent), var(--green-soft), var(--blue-soft));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-lead {
+  color: var(--sub);
+  font-size: 1.1rem;
+}
+
+.hero-code {
+  display: inline-block;
+  margin: 24px 0;
+  padding: 12px 32px;
+  font-family: var(--font-code);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 700;
+  background-color: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ふわふわ上下に動くアニメーション */
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+.step-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.step-nav a {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background-color: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.step-nav a:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+
+/* ---------- 各STEPのカード ---------- */
+main {
+  padding: 0 20px;
+}
+
+.step {
+  max-width: 960px;
+  margin: 0 auto 64px;
+  padding: 48px;
+  background-color: rgba(20, 24, 48, 0.85);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+}
+
+.step-label {
+  margin: 0;
+  font-family: var(--font-code);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+.point {
+  margin-top: 32px;
+  padding: 16px 20px;
+  border-left: 4px solid var(--accent);
+  background-color: rgba(255, 216, 77, 0.08);
+  border-radius: 0 12px 12px 0;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--sub);
+}
+
+
+/* ---------- STEP 1：光のステージ ---------- */
+.light-stage {
+  position: relative;
+  width: 340px;
+  height: 320px;
+  margin: 32px auto 24px;
+  background-color: #000000;   /* 光が1つもない＝黒 */
+  border-radius: 24px;
+  overflow: hidden;
+  isolation: isolate;          /* 色の重なりをこの箱の中だけにする */
+}
+
+.light {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  /* ★ screen = 光のように色を「足し算」で重ねるモード */
+  mix-blend-mode: screen;
+  transition: opacity 0.4s;
+}
+
+#light-red   { background-color: #FF0000; top: 30px;  left: 40px; }
+#light-green { background-color: #00FF00; top: 30px;  left: 120px; }
+#light-blue  { background-color: #0000FF; top: 115px; left: 80px; }
+
+/* JavaScriptで「off」というクラスがつくと、ライトが消える */
+.light.off {
+  opacity: 0;
+}
+
+.light-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.light-btn {
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: 2px solid;
+  color: var(--text);
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s, background-color 0.2s;
+}
+
+.light-btn:hover {
+  transform: translateY(-3px);
+}
+
+#btn-red   { border-color: var(--red-soft);   background-color: rgba(255, 0, 0, 0.3); }
+#btn-green { border-color: var(--green-soft); background-color: rgba(0, 255, 0, 0.2); }
+#btn-blue  { border-color: var(--blue-soft);  background-color: rgba(0, 0, 255, 0.4); }
+
+/* 消えているライトのボタンはうすく表示 */
+.light-btn.off {
+  opacity: 0.35;
+}
+
+.mix-list {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.mix-list li {
+  padding: 12px 16px;
+  background-color: var(--bg);
+  border-radius: 12px;
+}
+
+/* 小さい色の丸 */
+.chip {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin: 0 4px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.chip-red     { background-color: #FF0000; }
+.chip-green   { background-color: #00FF00; }
+.chip-blue    { background-color: #0000FF; }
+.chip-yellow  { background-color: #FFFF00; }  /* 赤＋緑 */
+.chip-cyan    { background-color: #00FFFF; }  /* 緑＋青 */
+.chip-magenta { background-color: #FF00FF; }  /* 赤＋青 */
+.chip-white   { background-color: #FFFFFF; }  /* 赤＋緑＋青 */
+
+
+/* ---------- STEP 2：スライダー ---------- */
+.mixer {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 40px;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.slider-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 120px;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.slider-row label {
+  font-weight: 700;
+}
+
+.slider-row input {
+  width: 100%;
+  cursor: pointer;
+}
+
+/* accent-color でスライダーのつまみの色を変えられる */
+#slider-r { accent-color: #FF0000; }
+#slider-g { accent-color: #00FF00; }
+#slider-b { accent-color: #0000FF; }
+
+.slider-value {
+  margin: 0;
+  font-family: var(--font-code);
+  text-align: right;
+}
+
+.mixer-result {
+  text-align: center;
+}
+
+.mixer-preview {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  border: 4px solid var(--line);
+  transition: background-color 0.15s, box-shadow 0.15s;
+}
+
+.code-line {
+  margin: 4px 0;
+  font-size: 1.1rem;
+}
+
+.try-box {
+  margin-top: 32px;
+  padding: 20px 24px;
+  background-color: var(--bg);
+  border-radius: 16px;
+}
+
+.try-box h3 {
+  margin-top: 0;
+}
+
+
+/* ---------- STEP 3：16進数 ---------- */
+.hex-table {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.hex-cell {
+  padding: 10px 0;
+  text-align: center;
+  background-color: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: transform 0.2s;
+}
+
+.hex-cell:hover {
+  transform: scale(1.08);
+}
+
+.hex-cell span {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.hex-cell small {
+  color: var(--sub);
+}
+
+/* A〜F は目立たせる */
+.hex-cell.is-letter {
+  border-color: var(--accent);
+}
+
+.hex-cell.is-letter span {
+  color: var(--accent);
+}
+
+.formula {
+  font-size: 1.1rem;
+}
+
+.formula-big {
+  display: inline-block;
+  width: 1.6em;
+  margin-right: 4px;
+  text-align: center;
+  background-color: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.converter {
+  margin-top: 32px;
+  padding: 24px;
+  background-color: var(--bg);
+  border-radius: 16px;
+}
+
+.converter input {
+  width: 4em;
+  margin-left: 8px;
+  padding: 6px;
+  font-size: 1.4rem;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--text);
+  background-color: var(--panel);
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+}
+
+#hex-result {
+  font-size: 1.6rem;
+}
+
+/* 明るさを表すバー */
+.bar {
+  height: 16px;
+  background-color: var(--panel);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #333333, #FFFFFF);
+  transition: width 0.3s;
+}
+
+.hex-structure {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.part {
+  padding: 12px 20px;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 14px;
+  background-color: var(--bg);
+  border: 2px solid var(--line);
+}
+
+.part small {
+  display: block;
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--sub);
+}
+
+.part-r { border-color: var(--red-soft);   color: var(--red-soft); }
+.part-g { border-color: var(--green-soft); color: var(--green-soft); }
+.part-b { border-color: var(--blue-soft);  color: var(--blue-soft); }
+
+
+/* ---------- STEP 4：穴埋めクイズ ---------- */
+.quiz-card {
+  margin-top: 24px;
+  padding: 32px;
+  background-color: var(--bg);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.quiz-number {
+  margin: 0;
+  font-family: var(--font-code);
+  color: var(--sub);
+}
+
+.quiz-name {
+  margin: 4px 0;
+  font-size: 1.6rem;
+}
+
+.quiz-hint {
+  color: var(--sub);
+}
+
+.swatches {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin: 24px 0;
+}
+
+.swatch {
+  width: 140px;
+  height: 140px;
+  border-radius: 24px;
+  border: 3px solid var(--line);
+  transition: background-color 0.2s;
+}
+
+/* まだ色が入っていない時はしましま模様 */
+.swatch-empty {
+  background-image: repeating-linear-gradient(45deg, #1A1F3D 0 10px, #10132A 10px 20px);
+}
+
+.swatch-box p {
+  margin: 8px 0 0;
+  color: var(--sub);
+}
+
+/* CSSのコードっぽい見た目 */
+.code-block {
+  display: inline-block;
+  padding: 20px 28px;
+  text-align: left;
+  font-size: 1.15rem;
+  background-color: #05060D;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.code-block p {
+  margin: 4px 0;
+}
+
+.code-indent {
+  padding-left: 2em;
+}
+
+.code-selector { color: var(--accent); }
+.code-prop     { color: var(--blue-soft); }
+
+/* 穴埋めの入力欄 */
+.blank {
+  width: 3em;
+  margin: 0 2px;
+  padding: 4px;
+  font-family: var(--font-code);
+  font-size: 1.1rem;
+  text-align: center;
+  text-transform: uppercase;   /* 小文字で打っても大文字で表示 */
+  color: var(--text);
+  background-color: var(--panel);
+  border: 2px dashed;
+  border-radius: 8px;
+}
+
+.blank:focus {
+  outline: none;
+  border-style: solid;
+}
+
+.blank-r { border-color: var(--red-soft); }
+.blank-g { border-color: var(--green-soft); }
+.blank-b { border-color: var(--blue-soft); }
+
+.quiz-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn {
+  padding: 12px 28px;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+}
+
+.btn-main {
+  border: none;
+  color: #0B0D1A;
+  background: linear-gradient(90deg, var(--red-soft), var(--accent));
+}
+
+.btn-sub {
+  border: 2px solid var(--line);
+  color: var(--text);
+  background-color: transparent;
+}
+
+.quiz-message {
+  min-height: 1.8em;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* JavaScriptで「correct」「wrong」クラスをつけて色を切りかえる */
+.quiz-message.correct {
+  color: var(--green-soft);
+  animation: pop 0.4s;
+}
+
+.quiz-message.wrong {
+  color: var(--red-soft);
+}
+
+@keyframes pop {
+  0%   { transform: scale(0.7); }
+  70%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+
+/* ---------- STEP 5：練習用の箱 ---------- */
+.ex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* 色がまだ決まっていない状態（点線の箱） */
+.ex-box {
+  height: 170px;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+  border: 2px dashed var(--line);
+  border-radius: 18px;
+  background-color: transparent;
+  transition: transform 0.2s;
+}
+
+.ex-box:hover {
+  transform: translateY(-4px);
+}
+
+.ex-label {
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #FFFFFF;
+  background-color: rgba(0, 0, 0, 0.6);   /* どんな色の上でも読めるように半透明の黒 */
+  border-radius: 8px;
+}
+
+code {
+  padding: 2px 6px;
+  background-color: var(--bg);
+  border-radius: 6px;
+  color: var(--accent);
+}
+
+
+/* ---------- フッター ---------- */
+.footer {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--sub);
+  font-size: 0.9rem;
+}
+
+
+/* ---------- スマホなど画面が小さいとき ---------- */
+@media (max-width: 720px) {
+  .step {
+    padding: 28px 20px;
+  }
+
+  .mixer {
+    grid-template-columns: 1fr;
+  }
+
+  .slider-row {
+    grid-template-columns: 64px 1fr 100px;
+  }
+
+  .hex-table {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .light-stage {
+    transform: scale(0.85);
+  }
+
+  .swatch {
+    width: 110px;
+    height: 110px;
+  }
+
+  .part {
+    padding: 10px 12px;
+    font-size: 1.5rem;
+  }
+}
